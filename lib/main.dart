@@ -1,122 +1,417 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const PortfolioApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class PortfolioApp extends StatelessWidget {
+  const PortfolioApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final colorScheme = ColorScheme.fromSeed(seedColor: const Color(0xFF0D7377));
+
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Portfolio',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: colorScheme,
+        useMaterial3: true,
+        textTheme: ThemeData.light().textTheme.apply(
+              bodyColor: const Color(0xFF0F172A),
+              displayColor: const Color(0xFF0F172A),
+            ),
+        cardTheme: CardTheme(
+          elevation: 4,
+          color: Colors.white,
+          shadowColor: Colors.black.withOpacity(0.08),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const PortfolioPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class PortfolioPage extends StatelessWidget {
+  const PortfolioPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    final textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+      backgroundColor: const Color(0xFFF8FAFC),
+      body: SafeArea(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 960),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const CircleAvatar(
+                        radius: 42,
+                        backgroundColor: Color(0xFF14B8A6),
+                        child: Icon(
+                          Icons.person,
+                          size: 42,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Jordan Smith',
+                              style: textTheme.headlineMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Senior Flutter Engineer · Building clean, fast, and delightful mobile apps.',
+                              style: textTheme.titleMedium?.copyWith(
+                                color: Colors.blueGrey.shade700,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Wrap(
+                              spacing: 10,
+                              runSpacing: 10,
+                              children: const [
+                                _Chip(label: 'Flutter'),
+                                _Chip(label: 'Dart'),
+                                _Chip(label: 'Firebase'),
+                                _Chip(label: 'CI/CD'),
+                                _Chip(label: 'UX-driven UI'),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      const _ContactActions(),
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+                  _Section(
+                    title: 'About',
+                    children: [
+                      Text(
+                        'I craft production-ready Flutter apps focused on performance, accessibility, and maintainability. '
+                        'From greenfield builds to scaling existing products, I translate complex requirements into '
+                        'polished experiences with strong architecture and testing.',
+                        style: textTheme.bodyLarge?.copyWith(height: 1.4),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  _Section(
+                    title: 'Experience',
+                    children: [
+                      _ExperienceCard(
+                        title: 'Lead Mobile Engineer · Nova Labs',
+                        timeframe: '2021 — Present',
+                        points: const [
+                          'Designed a modular architecture that reduced feature delivery time by 30%.',
+                          'Implemented performance profiling and shader optimizations for a smoother 120fps experience.',
+                          'Built design-system components with extensive unit and golden testing.',
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      _ExperienceCard(
+                        title: 'Senior Flutter Developer · Brightside',
+                        timeframe: '2019 — 2021',
+                        points: const [
+                          'Shipped cross-platform onboarding with federated auth and analytics instrumentation.',
+                          'Collaborated with designers to deliver pixel-perfect layouts using custom slivers and animations.',
+                          'Championed CI/CD with automated code quality gates and staged rollouts.',
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  _Section(
+                    title: 'Selected Projects',
+                    children: [
+                      Wrap(
+                        spacing: 16,
+                        runSpacing: 16,
+                        children: const [
+                          _ProjectCard(
+                            title: 'Wellness Companion',
+                            description:
+                                'Mindfulness and coaching app with offline-first architecture and crisp motion design.',
+                            tech: 'Flutter · Riverpod · SQLite · Lottie',
+                          ),
+                          _ProjectCard(
+                            title: 'On-Demand Courier',
+                            description:
+                                'Courier tracking experience with live maps, push notifications, and driver performance dashboards.',
+                            tech: 'Flutter · Firebase · Maps SDK · Cloud Functions',
+                          ),
+                          _ProjectCard(
+                            title: 'Retail Showcase',
+                            description:
+                                'Composable storefront experience with localized content and A/B-tested feature flags.',
+                            tech: 'Flutter · GoRouter · GraphQL · LaunchDarkly',
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  _Section(
+                    title: 'Tooling & Practices',
+                    children: [
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: const [
+                          _Chip(label: 'Clean Architecture'),
+                          _Chip(label: 'Riverpod'),
+                          _Chip(label: 'Bloc'),
+                          _Chip(label: 'Golden Tests'),
+                          _Chip(label: 'Integration Tests'),
+                          _Chip(label: 'Fastlane'),
+                          _Chip(label: 'GitHub Actions'),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+                  Align(
+                    child: Text(
+                      'Let\'s build something great together.',
+                      style: textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+    );
+  }
+}
+
+class _Section extends StatelessWidget {
+  const _Section({required this.title, required this.children});
+
+  final String title;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 12),
+        ...children,
+      ],
+    );
+  }
+}
+
+class _ExperienceCard extends StatelessWidget {
+  const _ExperienceCard({
+    required this.title,
+    required this.timeframe,
+    required this.points,
+  });
+
+  final String title;
+  final String timeframe;
+  final List<String> points;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(
+                    title,
+                    style: textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  timeframe,
+                  style: textTheme.labelLarge?.copyWith(
+                    color: Colors.blueGrey.shade600,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            ...points.map(
+              (point) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(Icons.check_circle, size: 18, color: Color(0xFF14B8A6)),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        point,
+                        style: textTheme.bodyMedium,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+    );
+  }
+}
+
+class _ProjectCard extends StatelessWidget {
+  const _ProjectCard({
+    required this.title,
+    required this.description,
+    required this.tech,
+  });
+
+  final String title;
+  final String description;
+  final String tech;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return SizedBox(
+      width: 280,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                description,
+                style: textTheme.bodyMedium?.copyWith(height: 1.3),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  const Icon(Icons.code, size: 18, color: Color(0xFF14B8A6)),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      tech,
+                      style: textTheme.labelLarge?.copyWith(
+                        color: Colors.blueGrey.shade700,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
+    );
+  }
+}
+
+class _Chip extends StatelessWidget {
+  const _Chip({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Chip(
+      label: Text(label),
+      backgroundColor: const Color(0xFFE0F2F1),
+      labelStyle: const TextStyle(
+        fontWeight: FontWeight.w600,
+        color: Color(0xFF0F172A),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+    );
+  }
+}
+
+class _ContactActions extends StatelessWidget {
+  const _ContactActions();
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        FilledButton.icon(
+          onPressed: () {},
+          icon: const Icon(Icons.email_outlined),
+          label: const Text('Email'),
+          style: FilledButton.styleFrom(
+            backgroundColor: colorScheme.primary,
+            foregroundColor: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 8),
+        OutlinedButton.icon(
+          onPressed: () {},
+          icon: const Icon(Icons.link),
+          label: const Text('LinkedIn'),
+        ),
+        const SizedBox(height: 8),
+        OutlinedButton.icon(
+          onPressed: () {},
+          icon: const Icon(Icons.code),
+          label: const Text('GitHub'),
+        ),
+      ],
     );
   }
 }
