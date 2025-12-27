@@ -83,7 +83,7 @@ class ProjectsPage extends StatelessWidget {
                             runSpacing: 20,
                             children: projects
                                 .map((project) => SizedBox(
-                                      width: cardWidth,
+                                      //width: cardWidth,
                                       child: ProjectCard(project: project),
                                     ))
                                 .toList(),
