@@ -539,6 +539,7 @@
 .company-card {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 1.2rem;
 }
@@ -562,6 +563,11 @@
   width: min(100%, 18rem);
   height: auto;
   object-fit: contain;
+}
+
+.company-link {
+  width: 100%;
+  justify-content: space-between;
 }
 
 .logo-fallback {
@@ -911,6 +917,48 @@
 .is-rtl .footer-brand,
 .is-rtl .footer-copy {
   text-align: right;
+}
+
+.is-rtl .hero-copy {
+  align-items: flex-end;
+}
+
+.is-rtl .hero-copy p,
+.is-rtl .section-heading p,
+.is-rtl .about-card p,
+.is-rtl .contact-panel p,
+.is-rtl .availability-card p,
+.is-rtl .contact-form label,
+.is-rtl .social-copy {
+  line-height: 1.9;
+}
+
+.is-rtl .hero-copy h2,
+.is-rtl .section-heading h2,
+.is-rtl .about-card h3,
+.is-rtl .company-card h3,
+.is-rtl .contact-panel h3,
+.is-rtl .availability-card h3 {
+  letter-spacing: 0;
+}
+
+.is-rtl .hero-stats,
+.is-rtl .tech-list,
+.is-rtl .social-links {
+  width: 100%;
+}
+
+.is-rtl .company-card {
+  align-items: stretch;
+}
+
+.is-rtl .company-link,
+.is-rtl .github-button,
+.is-rtl .social-card,
+.is-rtl .primary-button,
+.is-rtl .secondary-button,
+.is-rtl .whatsapp-preview {
+  flex-direction: row-reverse;
 }
 
 .is-rtl .highlight-list li {

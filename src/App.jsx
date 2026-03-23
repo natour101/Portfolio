@@ -167,8 +167,7 @@ const content = {
       ],
       teamBadge: 'Team Affiliation',
       teamTitle: 'Zenixjo Team',
-      teamText:
-        'Zenixjo represents a professional environment where technology, execution, and modern product thinking come together. This portfolio highlights that spirit through a bold and polished presentation.',
+      teamLink: 'Visit Company Website',
     },
     skills: {
       badge: 'Skills',
@@ -268,8 +267,7 @@ const content = {
       ],
       teamBadge: 'الانتماء المهني',
       teamTitle: 'فريق Zenixjo',
-      teamText:
-        'يمثل فريق Zenixjo بيئة مهنية تتكامل فيها التقنية مع جودة التنفيذ والرؤية الحديثة في تطوير المنتجات. ويعكس هذا الموقع تلك الروح من خلال عرض احترافي ومنظم.',
+      teamLink: 'زيارة موقع الشركة',
     },
     skills: {
       badge: 'المهارات',
@@ -568,7 +566,15 @@ function App() {
                 )}
               </div>
 
-              <p>{t.about.teamText}</p>
+              <a
+                className="secondary-button company-link"
+                href="https://zenixjo.ct.ws/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {t.about.teamLink}
+                <FaArrowRight />
+              </a>
             </article>
           </div>
         </section>
@@ -728,7 +734,7 @@ function App() {
 
                     return (
                       <a
-                        key={item.label}
+                        key={item.key}
                         href={item.href}
                         target="_blank"
                         rel="noreferrer"
